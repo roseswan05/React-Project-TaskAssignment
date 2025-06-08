@@ -3,7 +3,7 @@ import { Box, Button } from "@mui/material";
 import { useFormik, Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import axios from "../services/axiosInstance";
+import axios from "../api/axiosInstance";
 
 
 interface AddTaskFormProps {

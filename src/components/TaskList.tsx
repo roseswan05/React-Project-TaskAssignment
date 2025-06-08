@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "../services/axiosInstance";
+import axios from "../api/axiosInstance";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
