@@ -1,32 +1,29 @@
 import React, { useState } from "react";
-import { Container, Typography, Divider, Paper } from "@mui/material";
+import { Container, Divider, Paper } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AddTaskForm from "../components/AddTaskForm";
-import TaskList from "../components/TaskList";
+import AddTaskForm from "../AddTaskForm";
+import TaskList from "../TaskList";
+import { TitleLarge, TitleMedium } from "../typography";
 
 const Home = () => {
   const [refreshFlag, setRefreshFlag] = useState(false);
 
-  const handleTaskAdded = () => {
+  function handleTaskAdded(): void {
     setRefreshFlag((prev) => !prev);
-  };
+  }   
 
   return (
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
       <Paper sx={{ p: 3, mb: 4 }} elevation={3}>
-        <Typography variant="h4" gutterBottom>
-          Add New Task
-        </Typography>
+        <TitleLarge>Add New Task</TitleLarge>
         <AddTaskForm onTaskAdded={handleTaskAdded} />
       </Paper>
 
       <Divider sx={{ mb: 4 }} />
 
       <Paper sx={{ p: 3 }} elevation={3}>
-        <Typography variant="h5" gutterBottom>
-          Task List
-        </Typography>
+        <TitleMedium>Task List</TitleMedium>
         <TaskList refreshFlag={refreshFlag} />
       </Paper>
 

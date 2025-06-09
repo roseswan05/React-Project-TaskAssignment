@@ -4,6 +4,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddTaskForm from "./components/AddTaskForm";
 import TaskList from "./components/TaskList";
+import { Home } from "./components/home";
+
 
 function App() {
   const [refreshFlag, setRefreshFlag] = useState(false);

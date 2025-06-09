@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Button } from "@mui/material";
-import { useFormik, Formik, Form, useField } from "formik";
+import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "../api/axiosInstance";
-
+import { Typography } from "@mui/material"; //امه اشه مسیر کی تغییر بم
 
 interface AddTaskFormProps {
   onTaskAdded: () => void;
@@ -35,7 +35,9 @@ const CustomTextField: React.FC<{ name: string; label: string }> = ({ name, labe
         }}
       />
       {meta.touched && meta.error && (
-        <div style={{ color: "red", fontSize: "0.8rem", marginTop: "5px" }}>{meta.error}</div>
+        <Typography variant="body2" color="error" mt={1}>
+          {meta.error}
+        </Typography>
       )}
     </Box>
   );
