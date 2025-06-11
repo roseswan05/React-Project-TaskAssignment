@@ -1,22 +1,30 @@
-import { TextField, TextFieldProps } from "@mui/material";
+import React from "react";
 import { useField } from "formik";
-import { FC } from "react";
+import { TextField } from "@mui/material";
+import ErrorText from "../typography/ErrorText";
 
-type Props = TextFieldProps & {
+interface Props {
   name: string;
-};
+  label: string;
+  type?: string;
+}
 
-const CustomTextField: FC<Props> = ({ ...props }) => {
-  const [field, meta] = useField(props.name);
+const CustomTextField = ({ name, label, type = "text" }: Props) => {
+  const [field, meta] = useField(name);
+  const isError = meta.touched && meta.error;
 
   return (
-    <TextField
-      fullWidth
-      {...field}
-      {...props}
-      error={Boolean(meta.touched && meta.error)}
-      helperText={meta.touched && meta.error}
-    />
+    <>
+      <TextField
+        {...field}
+        fullWidth
+        label={label}
+        type={type}
+        error={Boolean(isError)}
+        variant="outlined"
+      />
+      {isError && <ErrorText>{meta.error}</ErrorText>}
+    </>
   );
 };
 

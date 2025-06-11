@@ -1,54 +1,27 @@
-import React, { useState } from "react";
-import { CssBaseline, Container, Paper, Typography, Divider } from "@mui/material";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import AddTaskForm from "./components/AddTaskForm";
-import TaskList from "./components/TaskList";
-import { Home } from "./components/home";
+import React from "react";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
+import rtlPlugin from "stylis-plugin-rtl";
+import { prefixer } from "stylis";
 
+import { theme } from "./assets/theme";
+import Home from "./components/home/Home";
 
-function App() {
-  const [refreshFlag, setRefreshFlag] = useState(false);
+const cacheRtl = createCache({
+  key: "muirtl",
+  stylisPlugins: [prefixer, rtlPlugin],
+});
 
-  const triggerRefresh = () => {
-    setRefreshFlag((prev) => !prev);
-  };
-
+const App = () => {
   return (
-    <>
-      <CssBaseline />
-      <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
-        <Paper sx={{ p: 3, mb: 4 }} elevation={3}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Add New Task
-          </Typography>
-          <AddTaskForm onTaskAdded={triggerRefresh} />
-        </Paper>
-
-        <Divider sx={{ mb: 4 }} />
-
-        <Paper sx={{ p: 3 }} elevation={3}>
-          <Typography variant="h5" component="h2" gutterBottom>
-            Task List
-          </Typography>
-          <TaskList refreshFlag={refreshFlag} />
-        </Paper>
-
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
-      </Container>
-    </>
+    <CacheProvider value={cacheRtl}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Home />
+      </ThemeProvider>
+    </CacheProvider>
   );
-}
+};
 
 export default App;

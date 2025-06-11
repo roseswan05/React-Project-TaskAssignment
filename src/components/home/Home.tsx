@@ -1,33 +1,38 @@
-import React, { useState } from "react";
-import { Container, Divider, Paper } from "@mui/material";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useEffect, useState } from "react";
+import { Box, Container, Divider } from "@mui/material";
+import axiosInstance from "../../api/axios";
 import AddTaskForm from "../AddTaskForm";
 import TaskList from "../TaskList";
-import { TitleLarge, TitleMedium } from "../typography";
+import TitleText from "../typography/TitleText";
 
 const Home = () => {
-  const [refreshFlag, setRefreshFlag] = useState(false);
+  const [tasks, setTasks] = useState<any[]>([]);
 
-  function handleTaskAdded(): void {
-    setRefreshFlag((prev) => !prev);
-  }   
+  const fetchTasks = async () => {
+    try {
+      const res = await axiosInstance.get("/todos");
+      setTasks(res.data.todos);
+    } catch (error) {
+      console.error("خطا در گرفتن تسک‌ها:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const handleTaskAdded = (newTask: any) => {
+    setTasks((prevTasks) => [newTask, ...prevTasks]);
+  };
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
-      <Paper sx={{ p: 3, mb: 4 }} elevation={3}>
-        <TitleLarge>Add New Task</TitleLarge>
+    <Container maxWidth="md" sx={{ mt: 6 }}>
+      <Box>
+        <TitleText>مدیریت تسک‌ها</TitleText>
         <AddTaskForm onTaskAdded={handleTaskAdded} />
-      </Paper>
-
-      <Divider sx={{ mb: 4 }} />
-
-      <Paper sx={{ p: 3 }} elevation={3}>
-        <TitleMedium>Task List</TitleMedium>
-        <TaskList refreshFlag={refreshFlag} />
-      </Paper>
-
-      <ToastContainer position="top-right" autoClose={3000} theme="colored" />
+        <Divider sx={{ my: 4 }} />
+        <TaskList tasks={tasks} setTasks={setTasks} />
+      </Box>
     </Container>
   );
 };
